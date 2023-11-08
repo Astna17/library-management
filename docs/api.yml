@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Library API
   version: 1.1.0
-  description: STD22001
+  description: STD22027
 servers:
   - url: https://library.com
 paths:
@@ -38,27 +38,28 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+
     put:
-      tags:
-        - Books
-      summary: Create or update a list of books
-      operationId: crupdateBooks
-      requestBody:
+       tags:
+         - Books
+       summary: Create or update a list of books
+       operationId: crupdateBooks
+       requestBody:
         content:
-          application/json:
+         application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Book"
+       responses:
+         200:
+          description: The list of created or updated books
+          content:
+           application/json:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Book'
-      responses:
-        200:
-          description: The list of created or updated books
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Book'
+                $ref: "#/components/schemas/Book"
   /authors:
     get:
       summary: Get all authors
@@ -104,26 +105,33 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
-  /authors/{aId}:
+
     delete:
-      summary: Delete an author
-      operationId: deleteAuthor
       tags:
         - Authors
+      summary: Delete author by id
+      description: Deleting an author by id
       parameters:
-        - name: aId
-          in: path
-          description: Author identifier to be deleted
+        - name: authorName
+          in: query
+          required: true
           schema:
             type: string
-          required: true
       responses:
-        200:
-          description: The author deleted
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Author'
+          "200":
+            description: Author deleted successfully
+
+
+  /topics:
+    get:
+      tags:
+        - Topics
+      summary: Get all topics
+      description: Retrieve a list of all topics
+      responses:
+        "200":
+          description: List of topics
+
 components:
   schemas:
     Book:
@@ -160,3 +168,11 @@ components:
       enum:
         - M
         - F
+
+    Topic:
+      type: object
+      properties:
+        Id:
+          type: string
+        topicName:
+          type: string
