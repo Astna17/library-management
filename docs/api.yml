@@ -61,8 +61,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+
   /authors:
-  #TODO2: complete GET (can be filtered by name) - PUT - DELETE
     get:
       summary: get all authors
       description: filter a list of all authors by name
@@ -74,6 +74,7 @@ paths:
           required: false
           schema:
             type: string
+
       responses:
         200:
           description: the list of author
@@ -83,6 +84,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Authors'
+
     put:
       summary: create or update an author
       operationId: crupdateAuthors
@@ -93,6 +95,7 @@ paths:
               type: array
               items:
                $ref: '#/components/schemas/Authors'
+
       responses:
         200:
           description: the list of create or update authors
@@ -117,6 +120,34 @@ paths:
       responses:
         '200':
           description: Successful request
+
+  /books/{bookId}/authors/{authorId}:
+    put:
+      summary: Update the Author of a Book
+      operationId: UpdateTheAuthorOfaBook
+      parameters:
+
+        - name: bookId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the Book
+
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the Author
+
+      responses:
+        '200':
+          description: the update book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
 
 components:
   schemas:
