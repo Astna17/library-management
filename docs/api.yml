@@ -69,7 +69,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
-
   /authors:
     get:
       tags:
@@ -140,10 +139,24 @@ components:
     Book:
       type: object
       properties:
+        id:
+          type: string
+        bookName:
+          type: string
         author:
-          $ref: '#/components/schemas/Authors'
-
-    Authors:
+          $ref: '#/components/schemas/Author'
+        pageNumbers:
+          type: integer
+        topic:
+          type: string
+          enum:
+            - ROMANCE
+            - COMEDY
+            - OTHER
+        releaseDate:
+          type: string
+          format: date
+    Author:
       type: object
       properties:
         id:
@@ -151,7 +164,9 @@ components:
         authorName:
           type: string
         sex:
-          type: string
-          enum:
-            - M
-            - F
+          $ref: '#/components/schemas/Sex'
+    Sex:
+      type: string
+      enum:
+        - M
+        - F
