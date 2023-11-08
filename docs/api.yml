@@ -1,13 +1,11 @@
 openapi: 3.0.3
 info:
   title: Library API
-  version: 1.1.0
+  version: 1.0.0
   description: STD22027
 servers:
   - url: https://library.com
-tags:
-  - Books
-  - Authors
+
 paths:
   /books:
     get:
@@ -69,6 +67,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+
   /authors:
     get:
       tags:
@@ -164,25 +163,24 @@ paths:
               schema:
                 $ref: '#/components/schemas/Book'
 
-
   /books/authors:
-      put:
-        tags:
-          - Books
-        summary: Create an association between a Book and an Author
-        description: List of associations to create
-        requestBody:
-          required: true
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/UpdateBookAuthor'
+    put:
+      tags:
+        - Books
+      summary: Create an association between a Book and an Author
+      description: List of associations to create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/UpdateBookAuthor'
 
-        responses:
-          '200':
-            description: Successful association creation
+      responses:
+        '200':
+          description: Successful association creation
 
 components:
   schemas:
@@ -202,12 +200,10 @@ components:
         authorName:
           type: string
         sex:
-          $ref: '#/components/schemas/Sex'
-    Sex:
-      type: string
-      enum:
-        - M
-        - F
+          type: string
+          enum:
+            - M
+            - F
 
     CrupdateBook:
       type: object
@@ -235,8 +231,6 @@ components:
           type: string
         authorId:
           type: string
-
-
 
   # Reponses sur le TD2
 
