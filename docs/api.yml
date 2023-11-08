@@ -163,6 +163,51 @@ paths:
         "200":
           description: Topic deleted successfully
 
+
+  /books/{bookId}/topics/{topicId}:
+    put:
+      tags:
+        - "Topics"
+      summary: Update the topic of a book
+      description: Update the topic of a book by book ID and topic ID
+      parameters:
+        - name: bookId
+          in: path
+          schema:
+            type: string
+          required: true
+        - name: topicId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: The updated book with the new topic
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+
+  /books/topics:
+    put:
+      tags:
+        - "Topics"
+      summary: Update topics for multiple books
+      description: Update the topics of multiple books
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/UpdateBookTopic"
+
+      responses:
+        "200":
+          description: Topics updated successfully
+
 components:
   schemas:
     Book:
@@ -206,4 +251,13 @@ components:
         Id:
           type: string
         topicName:
+          type: string
+
+
+    UpdateBookTopic:
+      type: object
+      properties:
+        bookId:
+          type: string
+        topicId:
           type: string
