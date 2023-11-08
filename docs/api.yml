@@ -248,3 +248,6 @@ components:
 #4-a) Oui, il est possible de gérer la pagination à travers les en-tête de la requête mais cette approche n'est pas recommandée
   # car elle ne suit pas les conventions,ce qui peut compliquer la compréhension et la gestion de la pagination pour les développeurs.
 #4-b) Non, en général, il n'est pas recommandé de gérer la pagination à travers les en-têtes  car il ne suit pas les conventions courantes de conception
+
+
+

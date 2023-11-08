@@ -1,0 +1,5 @@
+Réponses à la question sur la vidéo:
+
+1-Créez un schéma indépendant pour "Author".
+2-Utilisez un schéma appelé "BookWithAuthors" pour représenter les informations détaillées d'un livre, y compris ses auteurs.
+3-Intégrez une liste d'auteurs dans le schéma "Book".
