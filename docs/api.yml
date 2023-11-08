@@ -29,6 +29,22 @@ paths:
             format: date
           required: false
 
+        - in: query
+          name: page
+          description: Page number for pagination
+          schema:
+              type: integer
+              default: 1
+          required: false
+
+        - in: query
+          name: pageSize
+          description: Page number for pagination
+          schema:
+            type: integer
+            default: 1
+          required: false
+
       responses:
         200:
           description: The list of filtered books
@@ -126,8 +142,25 @@ paths:
     get:
       tags:
         - Topics
-      summary: Get all topics
-      description: Retrieve a list of all topics
+      summary: Get all topics with pagination
+      description: Retrieve a list of all topics with pagination
+      parameters:
+        - in: query
+          name: page
+          description: Page number for pagination
+          required: false
+          schema:
+            type: integer
+            default: 1
+
+        - in: query
+          name: pageSize
+          description: Page size for pagination
+          required: false
+          schema:
+            type: integer
+            default: 50
+
       responses:
         "200":
           description: List of topics
