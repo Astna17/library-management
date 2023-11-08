@@ -146,7 +146,22 @@ paths:
               $ref: "#/components/schemas/Topic"
       responses:
         "200":
-          description: Topic crupdate successfully
+          description: Topic crupdated successfully
+
+    delete:
+      tags:
+        - Topics
+      summary: Delete a topic by id
+      description: Delete a topic by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Topic deleted successfully
 
 components:
   schemas:
