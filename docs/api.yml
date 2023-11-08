@@ -150,6 +150,17 @@ components:
         - M
         - F
 
+    BaseResponse:
+      type: object
+      properties:
+        status:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+
   parameters:
     queryPagination:
       name: queryPagination
@@ -169,3 +180,4 @@ components:
           page:
             type: string
       required: true
+
