@@ -142,7 +142,9 @@ components:
         authorName:
           type: string
         sex:
-          type: string
-          enum:
-            - M
-            - F
+          $ref: '#/components/schemas/sex'
+    sex:
+      type: string
+      enum:
+        - M
+        - F
