@@ -5,9 +5,14 @@ info:
   description: STD22027
 servers:
   - url: https://library.com
+tags:
+  - Books
+  - Authors
 paths:
   /books:
     get:
+      tags:
+        - Books
       summary: Get all books
       description: The returned books are ordered by updated datetime.
       operationId: getBooks
@@ -18,7 +23,7 @@ paths:
           required: false
           schema:
             type: string
-        #TODO3: add parameter to filter books by intervals of dates of the releaseDate
+
         - in: query
           name: releaseDateFrom
           description: Filter books released on after the date.
@@ -33,6 +38,7 @@ paths:
           schema:
             type: string
             format: date
+
       responses:
         200:
           description: The list of filtered books
@@ -43,6 +49,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Book'
     put:
+      tags:
+        - Books
       summary: Create or update a list of books
       operationId: crupdateBooks
       requestBody:
@@ -64,6 +72,8 @@ paths:
 
   /authors:
     get:
+      tags:
+        - Authors
       summary: get all authors
       description: filter a list of all authors by name
       operationId: getAuthor
@@ -86,6 +96,8 @@ paths:
                   $ref: '#/components/schemas/Authors'
 
     put:
+      tags:
+        - Authors
       summary: create or update an author
       operationId: crupdateAuthors
       requestBody:
@@ -107,6 +119,8 @@ paths:
                   $ref: '#/components/schemas/Authors'
 
     delete:
+      tags:
+        - Authors
       summary: Delete an authors
       description: delete an author by their Id.
       operationId: deleteAuthor
@@ -124,7 +138,7 @@ paths:
   /books/{bookId}/authors/{authorId}:
     put:
       tags:
-        - books
+        - Books
       summary: Update the Author of a Book
       operationId: UpdateTheAuthorOfaBook
       parameters:
@@ -154,7 +168,7 @@ paths:
   /books/authors:
     put:
       tags:
-        - books
+        - Books
       summary: Create an association between a Book and an Author
       description: List of associations to create
       requestBody:
@@ -222,6 +236,15 @@ components:
 
 # Reponses sur le TD2
 
-#i) UpdateBookAuthor ne contient que les identifiants pour modifier l'association entre un Book et un Author,
-#sans inclure les autres propriétés telles que bookName et authorName, car son but principal est de gérer cette association
-#sans affecter les détails spécifiques de ces entités.
+#2-b-i) UpdateBookAuthor ne contient que les identifiants pour modifier l'association entre un Book et un Author,
+  #sans inclure les autres propriétés telles que bookName et authorName, car son but principal est de gérer cette association
+  #sans affecter les détails spécifiques de ces entités.
+
+#2-b-ii) UpdateBookAuthor devrait inclure les propriétés de CrupdateBook et Author lorsqu'une mise à jour de l'association
+  #entre un Book et un Author doit également permettre la modification des détails spécifiques de ces entités en même temps.
+
+#3-a) La pagination est nécessaire pour faciliter la gestion des grands quantités de données.
+
+#4-a) Oui, il est possible de gérer la pagination à travers les en-tête de la requête mais cette approche n'est pas recommandée
+  # car elle ne suit pas les conventions,ce qui peut compliquer la compréhension et la gestion de la pagination pour les développeurs.
+#4-b) Non, en général, il n'est pas recommandé de gérer la pagination à travers les en-têtes  car il ne suit pas les conventions courantes de conception
