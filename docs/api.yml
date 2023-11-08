@@ -14,37 +14,7 @@ paths:
       description: The returned books are ordered by updated datetime.
       operationId: getBooks
       parameters:
-        - in: query
-          name: bookName
-          description: Filter books by given name
-          required: false
-          schema:
-            type: string
-
-        - in: query
-          name: releaseDate
-          description: Filter books by release date interval
-          schema:
-            type: string
-            format: date
-          required: false
-
-        - in: query
-          name: page
-          description: Page number for pagination
-          schema:
-              type: integer
-              default: 1
-          required: false
-
-        - in: query
-          name: pageSize
-          description: Page number for pagination
-          schema:
-            type: integer
-            default: 1
-          required: false
-
+        - $ref: '#/components/parameters/queryPagination'
       responses:
         200:
           description: The list of filtered books
@@ -67,6 +37,7 @@ paths:
             type: array
             items:
               $ref: "#/components/schemas/Book"
+
        responses:
          200:
           description: The list of created or updated books
@@ -82,15 +53,17 @@ paths:
       operationId: getAuthors
       tags:
         - Authors
+        -
       parameters:
+        - $ref: '#/components/parameters/queryPagination'
+
         - name: authorName
           in: query
-          description: |
-            Filter returned authors by given name. 
-            If not provided, then list is not filtered.
+          description: Filter returned authors by given name.
           schema:
             type: string
           required: false
+
       responses:
         200:
           description: The list of filtered authors
@@ -100,6 +73,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
+
     put:
       summary: Create or update authors
       operationId: crupdateAuthors
@@ -137,112 +111,9 @@ paths:
           "200":
             description: Author deleted successfully
 
-
-  /topics:
-    get:
-      tags:
-        - Topics
-      summary: Get all topics with pagination
-      description: Retrieve a list of all topics with pagination
-      parameters:
-        - in: query
-          name: page
-          description: Page number for pagination
-          required: false
-          schema:
-            type: integer
-            default: 1
-
-        - in: query
-          name: pageSize
-          description: Page size for pagination
-          required: false
-          schema:
-            type: integer
-            default: 50
-
-      responses:
-        "200":
-          description: List of topics
-
-    put:
-      tags:
-        - Topics
-      summary: Create or update a topic
-      operationId: Crupdate a topic
-      description: Create or update a topic
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Topic"
-      responses:
-        "200":
-          description: Topic crupdated successfully
-
-    delete:
-      tags:
-        - Topics
-      summary: Delete a topic by id
-      description: Delete a topic by id
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Topic deleted successfully
-
-
-  /books/{bookId}/topics/{topicId}:
-    put:
-      tags:
-        - "Topics"
-      summary: Update the topic of a book
-      description: Update the topic of a book by book ID and topic ID
-      parameters:
-        - name: bookId
-          in: path
-          schema:
-            type: string
-          required: true
-        - name: topicId
-          in: path
-          schema:
-            type: string
-          required: true
-      responses:
-        "200":
-          description: The updated book with the new topic
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Book"
-
-  /books/topics:
-    put:
-      tags:
-        - "Topics"
-      summary: Update topics for multiple books
-      description: Update the topics of multiple books
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/UpdateBookTopic"
-
-      responses:
-        "200":
-          description: Topics updated successfully
-
 components:
   schemas:
+
     Book:
       type: object
       properties:
@@ -263,6 +134,7 @@ components:
         releaseDate:
           type: string
           format: date
+
     Author:
       type: object
       properties:
@@ -278,19 +150,22 @@ components:
         - M
         - F
 
-    Topic:
-      type: object
-      properties:
-        Id:
-          type: string
-        topicName:
-          type: string
+  parameters:
+    queryPagination:
+      name: queryPagination
+      in: query
+      schema:
+        type: object
+        properties:
+          page:
+            type: string
 
-
-    UpdateBookTopic:
-      type: object
-      properties:
-        bookId:
-          type: string
-        topicId:
-          type: string
+    pathPagination:
+      name: pathPagination
+      in: path
+      schema:
+        type: object
+        properties:
+          page:
+            type: string
+      required: true
