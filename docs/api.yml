@@ -161,6 +161,10 @@ components:
             message:
               type: string
 
+        body:
+          type: object
+
+
   parameters:
     queryPagination:
       name: queryPagination
