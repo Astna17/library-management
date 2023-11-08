@@ -132,6 +132,22 @@ paths:
         "200":
           description: List of topics
 
+    put:
+      tags:
+        - Topics
+      summary: Create or update a topic
+      operationId: Crupdate a topic
+      description: Create or update a topic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Topic"
+      responses:
+        "200":
+          description: Topic crupdate successfully
+
 components:
   schemas:
     Book:
