@@ -236,3 +236,19 @@ components:
         authorId:
           type: string
 
+
+
+  # Reponses sur le TD2
+
+  #2-b-i) UpdateBookAuthor ne contient que les identifiants pour modifier l'association entre un Book et un Author,
+  #sans inclure les autres propriétés telles que bookName et authorName, car son but principal est de gérer cette association
+  #sans affecter les détails spécifiques de ces entités.
+
+  #2-b-ii) UpdateBookAuthor devrait inclure les propriétés de CrupdateBook et Author lorsqu'une mise à jour de l'association
+  #entre un Book et un Author doit également permettre la modification des détails spécifiques de ces entités en même temps.
+
+  #3-a) La pagination est nécessaire pour faciliter la gestion des grands quantités de données.
+
+  #4-a) Oui, il est possible de gérer la pagination à travers les en-tête de la requête mais cette approche n'est pas recommandée
+  # car elle ne suit pas les conventions,ce qui peut compliquer la compréhension et la gestion de la pagination pour les développeurs.
+#4-b) Non, en général, il n'est pas recommandé de gérer la pagination à travers les en-têtes  car il ne suit pas les conventions courantes de conception
