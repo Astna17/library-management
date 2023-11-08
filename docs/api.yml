@@ -164,6 +164,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/Book'
 
+
+  /books/authors:
+      put:
+        tags:
+          - Books
+        summary: Create an association between a Book and an Author
+        description: List of associations to create
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UpdateBookAuthor'
+
+        responses:
+          '200':
+            description: Successful association creation
+
 components:
   schemas:
     Book:
