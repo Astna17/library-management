@@ -123,6 +123,8 @@ paths:
 
   /books/{bookId}/authors/{authorId}:
     put:
+      tags:
+        - books
       summary: Update the Author of a Book
       operationId: UpdateTheAuthorOfaBook
       parameters:
@@ -151,6 +153,8 @@ paths:
 
   /books/authors:
     put:
+      tags:
+        - books
       summary: Create an association between a Book and an Author
       description: List of associations to create
       requestBody:
@@ -215,3 +219,9 @@ components:
           type: string
         authorId:
           type: string
+
+# Reponses sur le TD2
+
+#i) UpdateBookAuthor ne contient que les identifiants pour modifier l'association entre un Book et un Author,
+#sans inclure les autres propriétés telles que bookName et authorName, car son but principal est de gérer cette association
+#sans affecter les détails spécifiques de ces entités.
