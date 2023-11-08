@@ -158,6 +158,7 @@ components:
       properties:
         author:
           $ref: '#/components/schemas/Authors'
+
     Authors:
       type: object
       properties:
@@ -170,6 +171,7 @@ components:
           enum:
             - M
             - F
+
     CrupdateBook:
       type: object
       properties:
@@ -188,3 +190,11 @@ components:
         releaseDate:
           type: string
           format: date
+
+    UpdateBookAuthor:
+      type: object
+      properties:
+        bookId:
+          type: string
+        authorId:
+          type: string
