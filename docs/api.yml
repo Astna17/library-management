@@ -20,8 +20,15 @@ paths:
             type: string
         #TODO3: add parameter to filter books by intervals of dates of the releaseDate
         - in: query
-          name: releaseDate
-          description: Filter books released on the date.
+          name: releaseDateFrom
+          description: Filter books released on after the date.
+          required: false
+          schema:
+            type: string
+            format: date
+        - in : query
+          name: releaseDateTo
+          description: Filter books released on before the date.
           required: false
           schema:
             type: string
@@ -146,3 +153,21 @@ components:
           enum:
             - M
             - F
+    CrupdateBook:
+      type: object
+      properties:
+        id:
+          type: string
+        bookName:
+          type: string
+        pageNumbers:
+          type: integer
+        topic:
+          type: string
+          enum:
+            - ROMANCE
+            - COMEDY
+            - OTHER
+        releaseDate:
+          type: string
+          format: date
