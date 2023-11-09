@@ -87,6 +87,9 @@ paths:
              application/json:
                schema:
                  $ref: '#/components/schemas/ServerErrorResponse'
+
+
+
   /authors:
     get:
       summary: Get all authors
@@ -187,8 +190,32 @@ paths:
           schema:
             type: string
       responses:
-          "200":
+          200:
             description: Author deleted successfully
+
+  /authors/import:
+    post:
+      tags:
+        - Books
+      summary: Import authors
+      requestBody:
+         required: true
+         content:
+           application/json:
+             schema:
+               oneOf:
+                 - $ref: '#/components/schemas/ImportAuthorExcel'
+                 - $ref: '#/components/schemas/ImportAuthorJSON'
+
+      responses:
+        200:
+          description: Successful import
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Author'
 
 components:
 
@@ -251,7 +278,7 @@ components:
         - M
         - F
 
-    Response:
+    BaseResponse:
       type: object
       properties:
         status:
@@ -268,7 +295,7 @@ components:
 
     SuccessResponse:
       allOf:
-        - $ref: '#/components/schemas/Response'
+        - $ref: '#/components/schemas/BaseResponse'
         - type: object
           properties:
             status:
@@ -289,7 +316,7 @@ components:
 
     ClientErrorResponse:
       allOf:
-        - $ref: '#/components/schemas/Response'
+        - $ref: '#/components/schemas/BaseResponse'
         - type: object
           properties:
             status:
@@ -309,7 +336,7 @@ components:
 
     ServerErrorResponse:
       allOf:
-        - $ref: '#/components/schemas/Response'
+        - $ref: '#/components/schemas/BaseResponse'
         - type: object
           properties:
             status:
