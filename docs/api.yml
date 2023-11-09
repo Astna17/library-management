@@ -343,3 +343,36 @@ components:
           type: string
         sex:
           type: string
+
+
+    ImportBookJSON:
+      type: object
+      properties:
+        bookName:
+          type: string
+        author:
+          type: string
+        pageNumbers:
+          type: integer
+        topic:
+          type: string
+        releaseDate:
+          type: string
+        idAuthor:
+          type: integer
+
+    ImportBookExcel:
+      type: object
+      properties:
+        bookName:
+          type: string
+        author:
+          type: string
+        pageNumbers:
+          type: integer
+        topic:
+          type: string
+        releaseDate:
+          type: string
+        idAuthor:
+          type: integer
