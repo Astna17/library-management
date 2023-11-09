@@ -191,6 +191,28 @@ paths:
             description: Author deleted successfully
 
 components:
+
+  parameters:
+    queryPagination:
+      name: page
+      in: query
+      schema:
+        type: object
+        properties:
+          page:
+            type: integer
+            default: 1
+
+    pathPagination:
+      name: pageSize
+      in: path
+      schema:
+        type: object
+        properties:
+          pageSize:
+            type: integer
+      required: true
+
   schemas:
 
     Book:
@@ -305,24 +327,19 @@ components:
                   type: string
                   default: "An internal server error has occurred. Please try again later."
 
-  parameters:
-    queryPagination:
-      name: page
-      in: query
-      schema:
-        type: object
-        properties:
-          page:
-            type: integer
-            default: 1
 
-    pathPagination:
-      name: pageSize
-      in: path
-      schema:
-        type: object
-        properties:
-          pageSize:
-            type: integer
-      required: true
+    ImportAuthorJSON:
+      type: object
+      properties:
+        authorName:
+          type: string
+        sex:
+          type: string
 
+    ImportAuthorExcel:
+      type: object
+      properties:
+        authorName:
+          type: string
+        sex:
+          type: string
