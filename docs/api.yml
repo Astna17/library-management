@@ -23,25 +23,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Response200'
+                $ref: '#/components/schemas/SuccessResponse'
+
         400:
-          description: Bad Request
+          description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Response400'
+                $ref: '#/components/schemas/ClientErrorResponse'
+
         403:
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Response403'
+                $ref: '#/components/schemas/ClientErrorResponse'
+
         500:
-          description: Internal Server Error
+          description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Response500'
+                $ref: '#/components/schemas/ServerErrorResponse'
 
     put:
        tags:
@@ -58,11 +61,32 @@ paths:
 
        responses:
          200:
-          description: Success
-          content:
-           application/json:
-              schema:
-                $ref: "#/components/schemas/Response200"
+           description: Success
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/SuccessResponse'
+
+         400:
+           description: Bad request
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/ClientErrorResponse'
+
+         403:
+           description: Forbidden
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/ClientErrorResponse'
+
+         500:
+           description: Server error
+           content:
+             application/json:
+               schema:
+                 $ref: '#/components/schemas/ServerErrorResponse'
   /authors:
     get:
       summary: Get all authors
@@ -83,13 +107,32 @@ paths:
 
       responses:
         200:
-          description: The list of filtered authors
+          description: Success
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Author'
+                $ref: '#/components/schemas/SuccessResponse'
+
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
 
     put:
       summary: Create or update authors
@@ -105,13 +148,32 @@ paths:
                 $ref: '#/components/schemas/Author'
       responses:
         200:
-          description: The list of created or updated authors
+          description: Success
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Author'
+                $ref: '#/components/schemas/SuccessResponse'
+
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+
+        500:
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
 
     delete:
       tags:
@@ -167,7 +229,7 @@ components:
         - M
         - F
 
-    BaseResponse:
+    Response:
       type: object
       properties:
         status:
@@ -175,74 +237,73 @@ components:
           properties:
             code:
               type: string
+              default: "Default code"
             message:
               type: string
+              default: "default message"
         body:
           type: object
 
-    Response200:
+    SuccessResponse:
       allOf:
-        - $ref: '#/components/schemas/BaseResponse'
+        - $ref: '#/components/schemas/Response'
         - type: object
-        - properties:
-            status :
-              properties:
-                code:
-                  type: string
-                  enum:
-                    - 200
-                  default: 200
-                message:
-                  type: string
-                  default: "Request successfully"4
-
-    Response400:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-        - properties:
-              status:
-                properties:
-                  code:
-                    type: string
-                    enum:
-                      - 400
-                    default: 400
-                  message:
-                    type: string
-                    default: "bad request"
-
-    Response403:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-        - properties:
+          properties:
             status:
               properties:
                 code:
                   type: string
-                  enum:
-                    - 403
-                  default: 403
+                  default: "200"
                 message:
                   type: string
-                  default: "forbidden"
+                  default: "Success request"
+            body:
+              type: object
+              properties:
+                successData:
+                  type: string
+                  default: "Default success data"
 
-    Response500:
+
+    ClientErrorResponse:
       allOf:
-        - $ref: '#/components/schemas/BaseResponse'
+        - $ref: '#/components/schemas/Response'
         - type: object
-        - properties:
+          properties:
             status:
               properties:
                 code:
                   type: string
-                  enum:
-                    - 500
-                  default: 500
+                  default: "400"
                 message:
                   type: string
-                  default: "Internal server error"
+                  default: "Bad request"
+            body:
+              type: object
+              properties:
+                clientErrorData:
+                  type: string
+                  default: "Default client error data"
+
+    ServerErrorResponse:
+      allOf:
+        - $ref: '#/components/schemas/Response'
+        - type: object
+          properties:
+            status:
+              properties:
+                code:
+                  type: string
+                  default: "500"
+                message:
+                  type: string
+                  default: "Internal Server Error"
+            body:
+              type: object
+              properties:
+                serverErrorData:
+                  type: string
+                  default: "An internal server error has occurred. Please try again later."
 
   parameters:
     queryPagination:
