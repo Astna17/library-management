@@ -15,15 +15,33 @@ paths:
       operationId: getBooks
       parameters:
         - $ref: '#/components/parameters/queryPagination'
+        - $ref: '#/components/parameters/pathPagination'
+
       responses:
         200:
-          description: The list of filtered books
+          description: Success
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Book'
+                $ref: '#/components/schemas/Response200'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response400'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response403'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response500'
 
     put:
        tags:
@@ -40,22 +58,21 @@ paths:
 
        responses:
          200:
-          description: The list of created or updated books
+          description: Success
           content:
            application/json:
-            schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/Book"
+              schema:
+                $ref: "#/components/schemas/Response200"
   /authors:
     get:
       summary: Get all authors
       operationId: getAuthors
       tags:
         - Authors
-        -
+
       parameters:
         - $ref: '#/components/parameters/queryPagination'
+        - $ref: '#/components/parameters/pathPagination'
 
         - name: authorName
           in: query
@@ -160,28 +177,91 @@ components:
               type: string
             message:
               type: string
-
         body:
           type: object
 
+    Response200:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+        - properties:
+            status :
+              properties:
+                code:
+                  type: string
+                  enum:
+                    - 200
+                  default: 200
+                message:
+                  type: string
+                  default: "Request successfully"4
+
+    Response400:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+        - properties:
+              status:
+                properties:
+                  code:
+                    type: string
+                    enum:
+                      - 400
+                    default: 400
+                  message:
+                    type: string
+                    default: "bad request"
+
+    Response403:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+        - properties:
+            status:
+              properties:
+                code:
+                  type: string
+                  enum:
+                    - 403
+                  default: 403
+                message:
+                  type: string
+                  default: "forbidden"
+
+    Response500:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+        - properties:
+            status:
+              properties:
+                code:
+                  type: string
+                  enum:
+                    - 500
+                  default: 500
+                message:
+                  type: string
+                  default: "Internal server error"
 
   parameters:
     queryPagination:
-      name: queryPagination
+      name: page
       in: query
       schema:
         type: object
         properties:
           page:
-            type: string
+            type: integer
+            default: 1
 
     pathPagination:
-      name: pathPagination
+      name: pageSize
       in: path
       schema:
         type: object
         properties:
-          page:
-            type: string
+          pageSize:
+            type: integer
       required: true
 
