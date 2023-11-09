@@ -89,6 +89,29 @@ paths:
                  $ref: '#/components/schemas/ServerErrorResponse'
 
 
+  /books/import:
+    post:
+      tags:
+        - Books
+      summary: Import books
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/ImportBookJSON'
+                - $ref: '#/components/schemas/ImportBookExcel'
+
+      responses:
+        200:
+          description: Successful import
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
 
   /authors:
     get:
@@ -196,7 +219,7 @@ paths:
   /authors/import:
     post:
       tags:
-        - Books
+        - Authors
       summary: Import authors
       requestBody:
          required: true
