@@ -261,6 +261,7 @@ components:
         properties:
           pageSize:
             type: integer
+            default: 50
       required: true
 
   schemas:
