@@ -111,6 +111,59 @@ paths:
         '200':
           description: Successful request
 
+  /Visitors:
+    get:
+      tags:
+        - Visitors
+      summary: Get the list of visitors
+      operationId: AllVisitor
+      responses:
+        200:
+          description: Giving all visitor
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Visitor'
+
+  /Visitors/{visitorID}/activities:
+    get:
+      tags:
+        - Visitors
+      summary: Get details of a specific visitor
+      description: Get the list of activities performed by a visitor
+      parameters:
+        - name: visitorID
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: FromDate
+          in: query
+          description: Starting date
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: ToDate
+          in: query
+          description: Ending date
+          required: true
+          schema:
+            type: string
+            format: date-time
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/VisitorActivity'
+        400:
+          description: Visitor not found
+
 components:
   schemas:
     Visitor:
@@ -122,6 +175,24 @@ components:
           type: string
         reference:
           type: string
+        activities:
+          type: array
+          items:
+            $ref: '#/components/schemas/VisitorActivity'
+
+    VisitorActivity:
+      type: object
+      properties:
+        activityType:
+          type: string
+          enum:
+            - BORROW
+            - RETURN
+        bookId:
+          type: string
+        date:
+          type: string
+          format: date-time
 
     Book:
       type: object
