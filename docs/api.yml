@@ -113,6 +113,16 @@ paths:
 
 components:
   schemas:
+    Visitor:
+      type: object
+      properties:
+        Id:
+          type: string
+        visitorName:
+          type: string
+        reference:
+          type: string
+
     Book:
       type: object
       properties:
