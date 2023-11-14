@@ -8,6 +8,8 @@ servers:
 paths:
   /books:
     get:
+      tags:
+        - Books
       summary: Get all books
       description: The returned books are ordered by updated datetime.
       operationId: getBooks
@@ -36,6 +38,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Book'
     put:
+      tags:
+        - Books
       summary: Create or update a list of books
       operationId: crupdateBooks
       requestBody:
@@ -54,9 +58,43 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
-  /authors:
-  #TODO2: complete GET (can be filtered by name) - PUT - DELETE
+
+  /Books/borrowed:
     get:
+      tags:
+        - Books
+      summary: List of books on loan
+      description: Get of books borrowed
+      responses:
+        200:
+          description: The list of borrowed books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+
+  /books/available:
+    get:
+      tags:
+        - Books
+      summary: Get available books
+      description: Get the list of books available for borrowing
+      responses:
+        200:
+          description: The list of available books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+
+  /authors:
+    get:
+      tags:
+        - Authors
       summary: get all authors
       description: filter a list of all authors by name
       operationId: getAuthor
@@ -77,6 +115,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Authors'
     put:
+      tags:
+        - Authors
       summary: create or update an author
       operationId: crupdateAuthors
       requestBody:
@@ -97,6 +137,8 @@ paths:
                   $ref: '#/components/schemas/Authors'
 
     delete:
+      tags:
+        - Authors
       summary: Delete an authors
       description: delete an author by their Id.
       operationId: deleteAuthor
@@ -194,6 +236,19 @@ components:
           type: string
           format: date-time
 
+    BorrowRequest:
+      type: object
+      properties:
+        idBorrowRequest:
+          type: string
+        idVisitor:
+          type: string
+        idBook:
+          type: string
+        borrowingDate:
+          type: string
+          format: date
+
     Book:
       type: object
       properties:
@@ -202,7 +257,6 @@ components:
         bookName:
           type: string
         author:
-          #TODO1: set it as a component with properties : id, name, sex (M or F)
           $ref: '#/components/schemas/Authors'
         pageNumbers:
           type: integer
