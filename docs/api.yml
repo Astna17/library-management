@@ -22,7 +22,6 @@ paths:
           required: false
           schema:
             type: string
-        #TODO3: add parameter to filter books by intervals of dates of the releaseDate
         - in: query
           name: releaseDate
           description: Filter books released on the date.
@@ -40,6 +39,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Book'
     put:
+      security:
+        - OAuth2: [ admin ]
       tags:
         - Books
       summary: Create or update a list of books
@@ -117,6 +118,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Authors'
     put:
+      security:
+        - OAuth2: [ admin ]
       tags:
         - Authors
       summary: create or update an author
@@ -177,6 +180,8 @@ paths:
     get:
       security:
         - OAuth2: [admin]
+      tags:
+        - Visitors
       summary: Get the list of books borrowed by a visitor
       parameters:
         - in: path
@@ -193,10 +198,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/BorrowRequest'
-        400:
-          description: Visitor not found
   /Visitors/{visitorID}/returnedBook:
     get:
+      tags:
+        - Visitors
       summary: Get the list of books returned by a visitor
       parameters:
         - in: path
@@ -207,9 +212,12 @@ paths:
       responses:
         200:
           description: Successful response
-
-        400:
-          description: Visitor not found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReturnRequest'
 
   /Visitors/{visitorID}/activities:
     get:
