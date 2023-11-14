@@ -5,6 +5,8 @@ info:
   description: STD22027
 servers:
   - url: https://library.com
+security:
+  - OAuth2: []
 paths:
   /books:
     get:
@@ -155,6 +157,8 @@ paths:
 
   /Visitors:
     get:
+      security:
+        - OAuth2: [ read ]
       tags:
         - Visitors
       summary: Get the list of visitors
@@ -171,6 +175,8 @@ paths:
 
   /Visitors/{visitorID}/borrowedBooks:
     get:
+      security:
+        - OAuth2: [admin]
       summary: Get the list of books borrowed by a visitor
       parameters:
         - in: path
@@ -330,3 +336,13 @@ components:
           enum:
             - M
             - F
+
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        implicit:
+          scopes:
+            read: Read access
+            Write: Write access
+            admin: Admin access
