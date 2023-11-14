@@ -23,28 +23,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: '#/components/schemas/BookList'
 
         400:
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientErrorResponse'
+                $ref: '#/components/schemas/BadRequestBody400'
 
         403:
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientErrorResponse'
+                $ref: '#/components/schemas/BadRequestBody403'
 
         500:
           description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServerErrorResponse'
+                $ref: '#/components/schemas/BadRequestBody500'
 
     put:
        tags:
@@ -65,28 +65,28 @@ paths:
            content:
              application/json:
                schema:
-                 $ref: '#/components/schemas/SuccessResponse'
+                 $ref: '#/components/schemas/BookList'
 
          400:
            description: Bad request
            content:
              application/json:
                schema:
-                 $ref: '#/components/schemas/ClientErrorResponse'
+                 $ref: '#/components/schemas/BadRequestBody400'
 
          403:
            description: Forbidden
            content:
              application/json:
                schema:
-                 $ref: '#/components/schemas/ClientErrorResponse'
+                 $ref: '#/components/schemas/BadRequestBody403'
 
          500:
            description: Server error
            content:
              application/json:
                schema:
-                 $ref: '#/components/schemas/ServerErrorResponse'
+                 $ref: '#/components/schemas/BadRequestBody500'
 
 
   /books/import:
@@ -133,32 +133,32 @@ paths:
 
       responses:
         200:
-          description: Success
+          description: success
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: '#/components/schemas/AuthorList'
 
         400:
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientErrorResponse'
+                $ref: '#/components/schemas/BadRequestBody400'
 
         403:
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientErrorResponse'
+                $ref: '#/components/schemas/BadRequestBody403'
 
         500:
           description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServerErrorResponse'
+                $ref: '#/components/schemas/BadRequestBody500'
 
     put:
       summary: Create or update authors
@@ -178,28 +178,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResponse'
+                $ref: '#/components/schemas/AuthorList'
 
         400:
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientErrorResponse'
+                $ref: '#/components/schemas/BadRequestBody400'
 
         403:
           description: Forbidden
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientErrorResponse'
+                $ref: '#/components/schemas/BadRequestBody403'
 
         500:
           description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServerErrorResponse'
+                $ref: '#/components/schemas/BadRequestBody500'
 
     delete:
       tags:
@@ -302,83 +302,6 @@ components:
         - M
         - F
 
-    BaseResponse:
-      type: object
-      properties:
-        status:
-          type: object
-          properties:
-            code:
-              type: string
-              default: "Default code"
-            message:
-              type: string
-              default: "default message"
-        body:
-          type: object
-
-    SuccessResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            status:
-              properties:
-                code:
-                  type: string
-                  default: "200"
-                message:
-                  type: string
-                  default: "Success request"
-            body:
-              type: object
-              properties:
-                successData:
-                  type: string
-                  default: "Default success data"
-
-
-    ClientErrorResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            status:
-              properties:
-                code:
-                  type: string
-                  default: "400"
-                message:
-                  type: string
-                  default: "Bad request"
-            body:
-              type: object
-              properties:
-                clientErrorData:
-                  type: string
-                  default: "Default client error data"
-
-    ServerErrorResponse:
-      allOf:
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            status:
-              properties:
-                code:
-                  type: string
-                  default: "500"
-                message:
-                  type: string
-                  default: "Internal Server Error"
-            body:
-              type: object
-              properties:
-                serverErrorData:
-                  type: string
-                  default: "An internal server error has occurred. Please try again later."
-
-
     ImportAuthorJSON:
       type: object
       properties:
@@ -427,3 +350,114 @@ components:
           type: string
         idAuthor:
           type: integer
+
+    BaseResponse:
+      type: object
+      properties:
+        status:
+          type: object
+          properties:
+            code:
+              type: string
+              default: "Default code"
+            message:
+              type: string
+              default: "default message"
+        body:
+          type: object
+
+    ResponseStatus:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+
+    ResponseBodyTemplate:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ResponseStatus'
+        body:
+          type: object
+
+    BadRequestBody400:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+      example:
+        status: 400
+        message: Bad request
+        body: { }
+
+    BadRequestBody403:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+      example:
+        status: 403
+        message: Forbidden
+        body: { }
+
+    BadRequestBody500:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+      example:
+        status: 500
+        message: Internal Server Error
+        body: { }
+
+
+    BookList:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+        - properties:
+            body:
+              type: array
+              items:
+                $ref: '#/components/schemas/Book'
+
+    AuthorList:
+      allOf:
+        - $ref: '#/components/schemas/ResponseBodyTemplate'
+        - properties:
+            body:
+              type: array
+              items:
+                $ref: '#/components/schemas/Author'
+
+  responses:
+    BookList_200:
+      description: List of books.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BookList'
+
+    AuthorList_200:
+      description: List of authors
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AuthorList'
+
+    400:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BaseResponse'
+
+    403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BaseResponse'
+
+    500:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BaseResponse'
