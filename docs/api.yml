@@ -169,6 +169,42 @@ paths:
                 items:
                   $ref: '#/components/schemas/Visitor'
 
+  /Visitors/{visitorID}/borrowedBooks:
+    get:
+      summary: Get the list of books borrowed by a visitor
+      parameters:
+        - in: path
+          name: visitorID
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BorrowRequest'
+        400:
+          description: Visitor not found
+  /Visitors/{visitorID}/returnedBook:
+    get:
+      summary: Get the list of books returned by a visitor
+      parameters:
+        - in: path
+          name: visitorID
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Successful response
+
+        400:
+          description: Visitor not found
+
   /Visitors/{visitorID}/activities:
     get:
       tags:
@@ -246,6 +282,19 @@ components:
         idBook:
           type: string
         borrowingDate:
+          type: string
+          format: date
+
+    ReturnRequest:
+      type: object
+      properties:
+        idReturn:
+          type: string
+        idVisitor:
+          type: string
+        idBook:
+          type: string
+        ReturnedDate:
           type: string
           format: date
 
